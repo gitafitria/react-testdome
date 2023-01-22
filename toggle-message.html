@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script src="https://unpkg.com/react@16.3.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.2/umd/react-dom.production.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"
+      charset="utf-8"
+    ></script>
+    <script type="text/babel">
+      class Message extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {showWarning: false};
+        }        
+
+        render() {
+          const { showParagraph } = this.state;
+          return (
+            <React.Fragment>
+              <a href="#" onClick={() => this.handleItemClick()}> Want to buy a new car?</a>
+              {showParagraph && (
+                <p>Call +11 22 33 44 now!</p>
+              )}
+              
+            </React.Fragment>
+          );
+        }
+
+        handleItemClick() {
+          this.setState(state => ({
+            showParagraph: true,
+          }));
+        }
+      }
+
+      setTimeout(() => {
+        console.log("Before click: " + rootElement.innerHTML);
+
+        document.querySelector("a").click();
+        setTimeout(() => {
+          console.log("After click: " + rootElement.innerHTML);
+        });
+      });
+      const rootElement = document.getElementById("root");
+      ReactDOM.render(<Message isClicked={false}/>, rootElement);
+    </script>
+    <div id="root"></div>
+  </body>
+</html>
