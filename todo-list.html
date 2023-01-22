@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script src="https://unpkg.com/react@16.3.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.2/umd/react-dom.production.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"
+      charset="utf-8"
+    ></script>
+    <script type="text/babel">
+      const TodoItem = (props) => (
+        <li onClick={props.onClick}>{props.item.text}</li>
+      );
+
+      class TodoList extends React.Component {
+        render() {
+          const { items, onListClick } = this.props;
+          return (
+            <ul onClick={onListClick}>
+              {items.map((item, index) => (
+                <TodoItem
+                  item={item}
+                  key={index}
+                  onClick={this.handleItemClick.bind(this, item)}
+                />
+              ))}
+            </ul>
+          );
+        }
+
+        handleItemClick(item, event) {
+          if (!item.done) {
+            event.persist();
+            this.props.onItemClick(item, event);
+          } else {
+            event.stopPropagation();
+          }
+        }
+      }
+
+      const items = [
+        { text: "Buy grocery", done: true },
+        { text: "Play guitar", done: false },
+        { text: "Romantic dinner", done: false },
+      ];
+
+      const App = (props) => (
+        <TodoList
+          items={props.items}
+          onListClick={(event) => console.log("List clicked!")}
+          onItemClick={(item, event) => {
+            console.log("itemclick", item, event);
+          }}
+        />
+      );
+
+      const rootElement = document.getElementById("root");
+      ReactDOM.render(<App items={items} />, rootElement);
+    </script>
+    <div id="root"></div>
+  </body>
+</html>
